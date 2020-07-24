@@ -1,16 +1,116 @@
-### Hi there 👋
+# Settings
+## Create addons folder
+```bash
+# mkdir addons
+# cd addons
+# git clone repositoy
+```
 
-<!--
-**odooprod/odooprod** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+## PostgreSQL: Allow Remote Connections (host machine)
+```bash
+# vim /etc/postgresql/12/main/postgresql.conf
 
-Here are some ideas to get you started:
+listen_addresses = '*'
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+# sudo systemctl restart postgresql
+```
+
+```bash
+# vim /etc/postgresql/12/main/pg_hba.conf
+
+host    all             all              0.0.0.0/0                       md5
+host    all             all              ::/0                            md5
+```
+
+## Create odoo role as SUPERUSER in PostgreSQL
+```bash
+# sudo su - postgres
+
+postgres=# CREATE ROLE odoo WITH SUPERUSER CREATEDB CREATEROLE LOGIN ENCRYPTED PASSWORD 'odoo';
+```
+
+# odoo.conf
+## change db_host
+```bash
+db_host = 192.168.x.x <------- Local machine IP
+```
+
+# docker commit
+
+## Description
+
+Create a new image from a container's changes
+
+## Usage
+```bash
+# docker commit -m="Commit message" CONTAINER_ID herlesinc/odoo10ce:2.0
+```
+# docker push
+
+## Description
+
+Push image to dockerhub
+
+## Usage
+```bash
+# docker login --username=herlesinc --email=herles.incalla@gmail.com
+# docker push herlesinc/odoo10ce:2.0
+```
+
+# Saving and loading images
+## Description
+For make(save) a copy
+```bash
+# docker save herlesinc/odoo10ce:2.0 > odoo10ce.2.0.tar
+```
+
+For restore(load) a copy
+```bash
+# docker load --input odoo10ce.2.0.tar
+```
+
+# Docker-compose common commands
+## Description
+- Install pip libs
+```bash
+# docker-compose exec SERVICE pip install --upgrage sentry-sdk==0.10.2
+```
+- Force recreate, remove orphans
+```bash
+# docker-compose up -d --force-recreate --remove-orphans 
+```
+- Starts existing containers for a service.
+```bash
+# docker-compose start
+```
+- Stops running containers without removing them.
+```bash
+# docker-compose stop
+```
+- Pauses running containers of a service.
+```bash
+# docker-compose pause
+```
+- Unpauses paused containers of a service.
+```bash
+# docker-compose unpause
+```
+- Lists containers.
+```bash
+# docker-compose ps
+```
+- Builds, (re)creates, starts, and attaches to containers for a service.
+```bash
+# docker-compose up
+```
+- Stops containers and removes containers, networks, volumes, and images created by up.
+```bash
+# docker-compose down
+```
+
+# Docker common commands
+## Description
+- Connect to docker machine
+```bash
+# docker exec -it -u0 CONTAINER_NAME /bin/bash
+```
