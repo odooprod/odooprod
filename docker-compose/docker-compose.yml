@@ -1,10 +1,10 @@
 version: '3.3'
 services:
   web:
-    image: odoo:13.0
-    container_name: odooprod_web
-    domainname: odooprod_web.local
-    hostname: odooprod_web
+    image: herlesinc/odoo14ce:1.0
+    container_name: odooprod14
+    domainname: odooprod14.local
+    hostname: odooprod14
     networks:
       net:
         ipv4_address: 10.10.1.100
